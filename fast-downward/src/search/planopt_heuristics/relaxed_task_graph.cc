@@ -17,6 +17,36 @@ RelaxedTaskGraph::RelaxedTaskGraph(const TaskProxy &task_proxy)
         - the graph should contain precondition and effect nodes for all operators
         - the graph should contain all necessary edges.
     */
+    for (size_t i = 0; i < relaxed_task.propositions.size(); i++) {
+        variable_node_ids[i] = graph.add_node(NodeType::OR);
+    }
+
+    initial_node_id = graph.add_node(NodeType::AND);
+    goal_node_id = graph.add_node(NodeType::AND);
+
+    for (PropositionID id : relaxed_task.initial_state) {
+        graph.add_edge(variable_node_ids[id], initial_node_id);
+    }
+
+    for (const RelaxedOperator &op : relaxed_task.operators) {
+        NodeID operator_id = graph.add_node(NodeType::AND, op.cost);
+
+        NodeID precondition_node_id = graph.add_node(NodeType::AND);
+        for (PropositionID pre_id : op.preconditions) {
+            graph.add_edge(precondition_node_id, variable_node_ids[pre_id]);
+        }
+        NodeID effect_node_id = graph.add_node(NodeType::AND);
+        for (PropositionID eff_id : op.effects) {
+            graph.add_edge(variable_node_ids[eff_id], effect_node_id);
+        }
+
+        graph.add_edge(operator_id, precondition_node_id);
+        graph.add_edge(effect_node_id, operator_id);
+    }
+
+    for (NodeID id : relaxed_task.goal) {
+        graph.add_edge(goal_node_id, variable_node_ids[id]);
+    }
 }
 
 void RelaxedTaskGraph::change_initial_state(const GlobalState &global_state) {
