@@ -1,0 +1,4 @@
+.vscode
+build
+fast-downward/builds
+*pyc
