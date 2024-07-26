@@ -1,0 +1,134 @@
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /home/mwesthelle/.pyenv/versions/3.11.1/bin/python /mnt/f/Matheus/exercise-c/fast-downward/builds/release/bin/translate/translate.py castle/domain.pddl castle/castle-10-6-7-cards.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.010s CPU, 0.011s wall-clock]
+Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.000s CPU, 0.018s wall-clock]
+Preparing model... [0.000s CPU, 0.003s wall-clock]
+Generated 20 rules.
+Computing model... [0.030s CPU, 0.024s wall-clock]
+5723 relevant atoms
+1914 auxiliary atoms
+7637 final queue length
+16307 total queue pushes
+Completing instantiation... [0.080s CPU, 0.087s wall-clock]
+Instantiating: [0.110s CPU, 0.134s wall-clock]
+Computing fact groups...
+Finding invariants...
+7 initial candidates
+Finding invariants: [0.000s CPU, 0.002s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.000s wall-clock]
+Instantiating groups... [0.010s CPU, 0.002s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+40 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.000s CPU, 0.000s wall-clock]
+Computing fact groups: [0.010s CPU, 0.007s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.000s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Translator axioms removed by simplifying: 0
+Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
+Processing axioms: [0.000s CPU, 0.007s wall-clock]
+Translating task: [0.100s CPU, 0.103s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+54 propositions removed
+Detecting unreachable propositions: [0.040s CPU, 0.035s wall-clock]
+Reordering and filtering variables...
+82 of 82 variables necessary.
+36 of 82 mutex groups necessary.
+3973 of 3973 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.010s CPU, 0.018s wall-clock]
+Translator variables: 82
+Translator derived variables: 0
+Translator facts: 525
+Translator goal facts: 36
+Translator mutex groups: 36
+Translator total mutex groups size: 407
+Translator operators: 3973
+Translator axioms: 0
+Translator task size: 30936
+Translator peak memory: 51208 KB
+Writing output... [0.020s CPU, 0.033s wall-clock]
+Done! [0.310s CPU, 0.348s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /mnt/f/Matheus/exercise-c/fast-downward/builds/release/bin/downward --search 'astar(blind())' --internal-plan-file sas_plan < output.sas
+reading input... [t=0.0001147s]
+done reading input! [t=0.0085456s]
+Initializing blind search heuristic...
+Building successor generator...done! [t=0.0094829s]
+peak memory difference for successor generator creation: 1000 KB
+time for successor generation creation: 0.0002891s
+Variables: 82
+FactPairs: 525
+Bytes per state: 24
+Conducting best first search with reopening closed nodes, (real) bound = 2147483647
+New best heuristic value for blind: 1
+[g=0, 1 evaluated, 0 expanded, t=0.010641s, 12708 KB]
+f = 1 [1 evaluated, 0 expanded, t=0.0106686s, 12708 KB]
+Initial heuristic value for blind: 1
+pruning method: none
+f = 2 [6 evaluated, 1 expanded, t=0.0107078s, 12708 KB]
+f = 3 [17 evaluated, 6 expanded, t=0.0107462s, 12708 KB]
+f = 4 [28 evaluated, 17 expanded, t=0.0108051s, 12708 KB]
+f = 5 [33 evaluated, 28 expanded, t=0.0108612s, 12708 KB]
+f = 6 [38 evaluated, 33 expanded, t=0.0109278s, 12708 KB]
+f = 7 [45 evaluated, 38 expanded, t=0.0109724s, 12708 KB]
+f = 8 [53 evaluated, 45 expanded, t=0.0110163s, 12708 KB]
+f = 9 [74 evaluated, 53 expanded, t=0.0110661s, 12708 KB]
+f = 10 [122 evaluated, 74 expanded, t=0.0111283s, 12708 KB]
+f = 11 [215 evaluated, 122 expanded, t=0.011226s, 12708 KB]
+f = 12 [416 evaluated, 215 expanded, t=0.0114052s, 12708 KB]
+f = 13 [835 evaluated, 416 expanded, t=0.0117442s, 12708 KB]
+f = 14 [1600 evaluated, 835 expanded, t=0.0124362s, 12708 KB]
+f = 15 [2817 evaluated, 1600 expanded, t=0.0137769s, 12708 KB]
+f = 16 [4542 evaluated, 2817 expanded, t=0.0170419s, 12708 KB]
+f = 17 [6767 evaluated, 4542 expanded, t=0.019774s, 12708 KB]
+f = 18 [9455 evaluated, 6767 expanded, t=0.0268367s, 12840 KB]
+f = 19 [12573 evaluated, 9455 expanded, t=0.0366872s, 12972 KB]
+f = 20 [16170 evaluated, 12573 expanded, t=0.037806s, 13368 KB]
+f = 21 [20527 evaluated, 16170 expanded, t=0.0465875s, 13508 KB]
+f = 22 [25993 evaluated, 20527 expanded, t=0.0664187s, 13776 KB]
+f = 23 [33052 evaluated, 25993 expanded, t=0.0761784s, 14304 KB]
+f = 24 [42516 evaluated, 33052 expanded, t=0.0960502s, 14712 KB]
+f = 25 [55723 evaluated, 42516 expanded, t=0.125923s, 15256 KB]
+f = 26 [75193 evaluated, 55723 expanded, t=0.165774s, 16584 KB]
+f = 27 [104518 evaluated, 75193 expanded, t=0.225647s, 19860 KB]
+f = 28 [149281 evaluated, 104518 expanded, t=0.31549s, 20836 KB]
+f = 29 [219164 evaluated, 149281 expanded, t=0.465365s, 28008 KB]
+f = 30 [329952 evaluated, 219164 expanded, t=0.695256s, 31024 KB]
+f = 31 [506447 evaluated, 329952 expanded, t=1.06509s, 44292 KB]
+f = 32 [783238 evaluated, 506447 expanded, t=1.64494s, 55368 KB]
+f = 33 [1207594 evaluated, 783238 expanded, t=2.60477s, 82356 KB]
+f = 34 [1850932 evaluated, 1207594 expanded, t=4.09465s, 137736 KB]
+f = 35 [2818075 evaluated, 1850932 expanded, t=6.25428s, 170564 KB]
+f = 36 [4254393 evaluated, 2818075 expanded, t=9.67409s, 267208 KB]
+f = 37 [6362093 evaluated, 4254393 expanded, t=14.6037s, 360840 KB]
+f = 38 [9428904 evaluated, 6362093 expanded, t=22.6705s, 562544 KB]
+f = 39 [13890097 evaluated, 9428904 expanded, t=34.5002s, 1002420 KB]
+f = 40 [20404818 evaluated, 13890097 expanded, t=51.305s, 1181108 KB]
+Remove intermediate file output.sas
+search exit code: -9
+
+Driver aborting after search

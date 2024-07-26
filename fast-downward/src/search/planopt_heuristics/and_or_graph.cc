@@ -87,7 +87,7 @@ void AndOrGraph::most_conservative_valuation() {
                 && (static_cast<size_t>(predecessor.num_forced_successors) == predecessor.successor_ids.size())) {
                 predecessor.forced_true = true;
                 queue.push_back(predecessor_id);
-            } else if ((predecessor.type == NodeType::OR) && (predecessor.num_forced_successors == 1)) {
+            } else if ((predecessor.type == NodeType::OR) && (predecessor.num_forced_successors > 0)) {
                 predecessor.forced_true = true;
                 queue.push_back(predecessor_id);
             }

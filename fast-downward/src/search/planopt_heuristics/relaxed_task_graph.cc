@@ -32,16 +32,17 @@ RelaxedTaskGraph::RelaxedTaskGraph(const TaskProxy &task_proxy)
         NodeID operator_id = graph.add_node(NodeType::AND, op.cost);
 
         NodeID precondition_node_id = graph.add_node(NodeType::AND);
+        graph.add_edge(operator_id, precondition_node_id);
         for (PropositionID pre_id : op.preconditions) {
             graph.add_edge(precondition_node_id, variable_node_ids[pre_id]);
         }
+
         NodeID effect_node_id = graph.add_node(NodeType::AND);
+        graph.add_edge(effect_node_id, operator_id);
         for (PropositionID eff_id : op.effects) {
             graph.add_edge(variable_node_ids[eff_id], effect_node_id);
         }
 
-        graph.add_edge(operator_id, precondition_node_id);
-        graph.add_edge(effect_node_id, operator_id);
     }
 
     for (NodeID id : relaxed_task.goal) {
@@ -50,7 +51,7 @@ RelaxedTaskGraph::RelaxedTaskGraph(const TaskProxy &task_proxy)
 }
 
 void RelaxedTaskGraph::change_initial_state(const GlobalState &global_state) {
-    // Remove all initial edges that where introduced for relaxed_task.initial_state.
+    // Remove all initial edges that were introduced for relaxed_task.initial_state.
     for (PropositionID id : relaxed_task.initial_state) {
         graph.remove_edge(variable_node_ids[id], initial_node_id);
     }
