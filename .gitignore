@@ -2,3 +2,5 @@
 build
 fast-downward/builds
 *pyc
+*output.sas
+*sas_plan
