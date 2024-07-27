@@ -79,10 +79,14 @@ void AndOrGraph::most_conservative_valuation() {
         AndOrGraphNode &node = nodes[node_id];
         for (NodeID predecessor_id : node.predecessor_ids) {
             AndOrGraphNode &predecessor = nodes[predecessor_id];
+            predecessor.num_forced_successors++;
             if (predecessor.forced_true) {
                 continue;
             }
-            predecessor.num_forced_successors++;
+            // A node in an AND/OR graph is forced true if
+            // 1) it's an AND node and it either has no successors,
+            // or all of its successors are forced true.
+            // 2) it's an OR node and at least one of its successors is forced true.
             if ((predecessor.type == NodeType::AND)
                 && (static_cast<size_t>(predecessor.num_forced_successors) == predecessor.successor_ids.size())) {
                 predecessor.forced_true = true;
@@ -130,6 +134,54 @@ void AndOrGraph::weighted_most_conservative_valuation() {
     /*
       TODO: add your code for exercise 2 (c) here.
     */
+    priority_queue<pair<int, NodeID>, vector<pair<int, NodeID>>, greater<pair<int, NodeID>>> queue;
+
+    for (AndOrGraphNode &node : nodes) {
+        node.forced_true = false;
+        node.num_forced_successors = 0;
+        if ((node.type == NodeType::AND) && node.successor_ids.empty()) {
+            node.additive_cost = 0;
+            queue.emplace(make_pair(node.additive_cost, node.id));
+        }
+        else {
+            node.additive_cost = numeric_limits<int>::max();
+        }
+    }
+
+    while (!queue.empty()) {
+        NodeID node_id = queue.top().second;
+        queue.pop();
+        AndOrGraphNode &node = nodes[node_id];
+        for (NodeID predecessor_id : node.predecessor_ids) {
+            AndOrGraphNode &predecessor = nodes[predecessor_id];
+            if (!node.forced_true) {
+                predecessor.num_forced_successors++;
+            }
+            if (predecessor.type == NodeType::AND
+                && (static_cast<size_t>(predecessor.num_forced_successors)
+                    == predecessor.successor_ids.size())) {
+                predecessor.additive_cost = predecessor.direct_cost;
+                // to calculate the h_max heuristic, instead of summing up the
+                // additive costs of all successors, we only need to find the
+                // the successor node with the greatest additive cost.
+                for (NodeID successor_id : predecessor.successor_ids) {
+                    AndOrGraphNode &successor = nodes[successor_id];
+                    predecessor.additive_cost += successor.additive_cost;
+                }
+                queue.emplace(make_pair(predecessor.additive_cost, predecessor_id));
+            }
+            else if ((predecessor.type == NodeType::OR) && (predecessor.num_forced_successors > 0)) {
+                int current_cost = node.direct_cost + node.additive_cost;
+                if (current_cost < predecessor.additive_cost) {
+                    predecessor.additive_cost = current_cost;
+                    queue.emplace(make_pair(predecessor.additive_cost, predecessor_id));
+                }
+            }
+        }
+        if (!node.forced_true) {
+            node.forced_true = true;
+        }
+    }
 }
 
 void add_nodes(vector<string> names, NodeType type, AndOrGraph &g, unordered_map<string, NodeID> &ids) {
