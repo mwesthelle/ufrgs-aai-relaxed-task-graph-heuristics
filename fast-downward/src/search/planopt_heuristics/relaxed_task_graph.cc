@@ -1,6 +1,8 @@
 #include "relaxed_task_graph.h"
 
 #include <iostream>
+#include <deque>
+#include <unordered_set>
 #include <vector>
 
 using namespace std;
@@ -84,7 +86,36 @@ int RelaxedTaskGraph::additive_cost_of_goal() {
 
 int RelaxedTaskGraph::ff_cost_of_goal() {
     // TODO: add your code for exercise 2 (e) here.
-    return -1;
+    graph.weighted_most_conservative_valuation();
+    deque <NodeID> nodes;
+    unordered_set <NodeID> visited;
+    nodes.push_back(goal_node_id);
+    int ff_cost = 0;
+    while (!nodes.empty()) {
+        NodeID current_node_id = nodes.front();
+        nodes.pop_front();
+        AndOrGraphNode current_node = graph.get_node(current_node_id);
+        if (current_node.type == NodeType::AND) {
+            for (NodeID successor_id : current_node.successor_ids) {
+                if (visited.find(successor_id) == visited.end()) {
+                    visited.insert(successor_id);
+                    AndOrGraphNode successor = graph.get_node(successor_id);
+                    ff_cost += successor.direct_cost;
+                    nodes.push_back(successor_id);
+                }
+            }
+        }
+        else if (current_node.type == NodeType::OR) {
+            if (visited.find(current_node.achiever) == visited.end()) {
+                visited.insert(current_node.achiever);
+                AndOrGraphNode achiever = graph.get_node(current_node.achiever);
+                ff_cost += achiever.direct_cost;
+                nodes.push_back(current_node.achiever);
+            }
+        }
+    }
+
+    return ff_cost;
 }
 
 }
