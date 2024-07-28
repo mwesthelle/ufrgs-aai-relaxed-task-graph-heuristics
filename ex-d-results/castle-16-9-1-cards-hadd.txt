@@ -1,0 +1,138 @@
+INFO     Running translator.
+INFO     translator stdin: None
+INFO     translator time limit: None
+INFO     translator memory limit: None
+INFO     translator command line string: /home/mwesthelle/.pyenv/versions/3.11.1/bin/python /mnt/f/Matheus/exercise-c/fast-downward/builds/release/bin/translate/translate.py castle/domain.pddl castle/castle-16-9-1-cards.pddl --sas-file output.sas
+Parsing...
+Parsing: [0.010s CPU, 0.015s wall-clock]
+Normalizing task... [0.000s CPU, 0.000s wall-clock]
+Instantiating...
+Generating Datalog program... [0.000s CPU, 0.001s wall-clock]
+Normalizing Datalog program...
+Normalizing Datalog program: [0.000s CPU, 0.021s wall-clock]
+Preparing model... [0.010s CPU, 0.006s wall-clock]
+Generated 20 rules.
+Computing model... [0.060s CPU, 0.060s wall-clock]
+14961 relevant atoms
+3902 auxiliary atoms
+18863 final queue length
+42743 total queue pushes
+Completing instantiation... [0.260s CPU, 0.264s wall-clock]
+Instantiating: [0.330s CPU, 0.355s wall-clock]
+Computing fact groups...
+Finding invariants...
+7 initial candidates
+Finding invariants: [0.010s CPU, 0.002s wall-clock]
+Checking invariant weight... [0.000s CPU, 0.001s wall-clock]
+Instantiating groups... [0.000s CPU, 0.005s wall-clock]
+Collecting mutex groups... [0.000s CPU, 0.000s wall-clock]
+Choosing groups...
+64 uncovered facts
+Choosing groups: [0.000s CPU, 0.001s wall-clock]
+Building translation key... [0.000s CPU, 0.001s wall-clock]
+Computing fact groups: [0.020s CPU, 0.014s wall-clock]
+Building STRIPS to SAS dictionary... [0.000s CPU, 0.000s wall-clock]
+Building dictionary for full mutex groups... [0.000s CPU, 0.001s wall-clock]
+Building mutex information...
+Building mutex information: [0.000s CPU, 0.000s wall-clock]
+Translating task...
+Processing axioms...
+Simplifying axioms... [0.000s CPU, 0.000s wall-clock]
+Translator axioms removed by simplifying: 0
+Computing negative axioms... [0.000s CPU, 0.000s wall-clock]
+Processing axioms: [0.020s CPU, 0.019s wall-clock]
+Translating task: [0.290s CPU, 0.294s wall-clock]
+0 effect conditions simplified
+0 implied preconditions added
+Detecting unreachable propositions...
+0 operators removed
+0 axioms removed
+81 propositions removed
+Detecting unreachable propositions: [0.140s CPU, 0.130s wall-clock]
+Reordering and filtering variables...
+133 of 133 variables necessary.
+60 of 133 mutex groups necessary.
+11146 of 11146 operators necessary.
+0 of 0 axiom rules necessary.
+Reordering and filtering variables: [0.050s CPU, 0.050s wall-clock]
+Translator variables: 133
+Translator derived variables: 0
+Translator facts: 1060
+Translator goal facts: 60
+Translator mutex groups: 60
+Translator total mutex groups size: 867
+Translator operators: 11146
+Translator axioms: 0
+Translator task size: 84777
+Translator peak memory: 83952 KB
+Writing output... [0.070s CPU, 0.090s wall-clock]
+Done! [0.920s CPU, 0.965s wall-clock]
+translate exit code: 0
+
+INFO     Running search (release).
+INFO     search stdin: output.sas
+INFO     search time limit: None
+INFO     search memory limit: None
+INFO     search command line string: /mnt/f/Matheus/exercise-c/fast-downward/builds/release/bin/downward --search 'eager_greedy([planopt_add()])' --internal-plan-file sas_plan < output.sas
+reading input... [t=0.0001143s]
+done reading input! [t=0.0247292s]
+Building successor generator...done! [t=0.0347709s]
+peak memory difference for successor generator creation: 0 KB
+time for successor generation creation: 0.0031363s
+Variables: 133
+FactPairs: 1060
+Bytes per state: 40
+Conducting best first search without reopening closed nodes, (real) bound = 2147483647
+New best heuristic value for planopt_add: 10258
+[g=0, 1 evaluated, 0 expanded, t=0.0389573s, 26608 KB]
+Initial heuristic value for planopt_add: 10258
+pruning method: none
+New best heuristic value for planopt_add: 9586
+[g=1, 4 evaluated, 1 expanded, t=0.050174s, 26608 KB]
+New best heuristic value for planopt_add: 9341
+[g=2, 8 evaluated, 2 expanded, t=0.0616177s, 26608 KB]
+New best heuristic value for planopt_add: 9241
+[g=3, 11 evaluated, 3 expanded, t=0.0692174s, 26608 KB]
+New best heuristic value for planopt_add: 9101
+[g=3, 14 evaluated, 3 expanded, t=0.0772498s, 26608 KB]
+New best heuristic value for planopt_add: 8844
+[g=4, 15 evaluated, 4 expanded, t=0.0809949s, 26608 KB]
+New best heuristic value for planopt_add: 8368
+[g=4, 44 evaluated, 12 expanded, t=0.139436s, 26608 KB]
+New best heuristic value for planopt_add: 8205
+[g=5, 47 evaluated, 13 expanded, t=0.146968s, 26608 KB]
+New best heuristic value for planopt_add: 8149
+[g=5, 48 evaluated, 13 expanded, t=0.150682s, 26608 KB]
+New best heuristic value for planopt_add: 8112
+[g=5, 49 evaluated, 13 expanded, t=0.154475s, 26608 KB]
+New best heuristic value for planopt_add: 6916
+[g=6, 50 evaluated, 14 expanded, t=0.15816s, 26608 KB]
+New best heuristic value for planopt_add: 6860
+[g=6, 51 evaluated, 14 expanded, t=0.162008s, 26608 KB]
+New best heuristic value for planopt_add: 5614
+[g=7, 55 evaluated, 15 expanded, t=0.173116s, 26608 KB]
+New best heuristic value for planopt_add: 4677
+[g=8, 61 evaluated, 16 expanded, t=0.188526s, 26608 KB]
+New best heuristic value for planopt_add: 3216
+[g=9, 65 evaluated, 17 expanded, t=0.202798s, 26608 KB]
+New best heuristic value for planopt_add: 3191
+[g=12, 1240 evaluated, 218 expanded, t=3.19837s, 26608 KB]
+Completely explored state space -- no solution!
+Actual search time: 16.28s [t=16.319s]
+Expanded 4382 state(s).
+Reopened 0 state(s).
+Evaluated 7337 state(s).
+Evaluations: 7337
+Generated 17698 state(s).
+Dead ends: 2955 state(s).
+Number of registered states: 7337
+Int hash set load factor: 7337/8192 = 0.89563
+Int hash set resizes: 13
+Search time: 16.2839s
+Total time: 16.319s
+Search stopped without finding a solution.
+Peak memory: 26608 KB
+Remove intermediate file output.sas
+search exit code: 12
+
+Driver aborting after search
