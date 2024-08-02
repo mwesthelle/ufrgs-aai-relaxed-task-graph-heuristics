@@ -10,6 +10,7 @@
 % \usetikzlibrary{arrows}
 % \usetikzlibrary{automata}
 \usepackage[fleqn]{nccmath}
+\usepackage{fancyref}
 \usepackage{enumitem}
 % \usetikzlibrary{arrows.meta, shapes, positioning}
 
@@ -29,13 +30,14 @@
 \begin{document}
 
 \begin{titlepage}
-
+% TODO: review how to do this properly
     \thispagestyle{firstpage}
     \vspace*{1in}
     \begin{center}
       {\LARGE\bfseries List 3 \par}
       \vspace{0.2in}
       {\large Matheus Westhelle \par}
+      {\large Kayuã Oleques Paim \par}
     \end{center}
 
 \section*{Exercise 1}
@@ -309,48 +311,127 @@ The value of $h^{add}(I)$ is 6.
 
 \end{enumerate}
 
-\end{titlepage}
-
 \section*{Exercise 2}
 
-For this exercise, we start by a) implementing an algorithm to compute the most conservative valuation
-of an AND/OR graph and b) implementing an algorithm that constructs a relaxed task graph for a STRIPS 
-task. We then run the \texttt{fast-downward} planner using our heuristic and compare it against blind
-search on the \textit{castle} domain.
+For this exercise, we start by implementing an algorithm to compute the most conservative valuation
+of an AND/OR graph, and also implementing an algorithm that constructs a relaxed task graph for a STRIPS task. We then run the \texttt{fast-downward} planner using our heuristic and compare it against
+blind search by the number and speed of expansions on the \textit{castle} domain. \par
 \vspace{5mm}
 
-\begin{tabular}{|l|l|l|l|l|}
-\hline
-\multicolumn{1}{|c|}{} & \multicolumn{2}{|}{Number of Expansions} & \multicolumn{2}{c|}{Time (s)}\\
-\cline{2-5}
-\multicolumn{1}{|c|}{Instance} & Blind Search & Relaxed Task Graph & Blind Search & Relaxed Task Graph \\
-\hline
-castle 2-2-8 & 8 & 8 & 0.0014622 & 0.0013283 \\
-\hline
-castle 3-3-8 & 84 & 0.0022348 & 84 & 0.0029757 \\
-\hline
-castle 4-3-5 & 263 & 0.0034227 & 263 & 0.0071273 \\
-\hline
-castle 5-4-7 & 12 & 0.003974 & 6 & 0.0049379 \\
-\hline
-castle 5-4-9 & 7350 & 0.02681 & 7350 & 0.241813 \\
-\hline
-castle 5-4-10 & 0 & 0.0009523 & 0 & 0.0009358 \\
-\hline
-castle 6-4-7 & 24146 & 0.070907 & 24022 & 1.06481 \\
-\hline
-castle 7-5-4 & 3680953 & 12.537 & — & — \\
-\hline
-castle 8-5-9 & 4839625 & 16.9822 & — & — \\
-\hline
-castle 9-6-5 & 661 & 0.0117677 & 206 & 0.0594118 \\
-\hline
-castle 10-6-7 & — & — & — & — \\
-\hline
-castle 12-7-3 & 4585 & 0.0296206 & 2520 & 0.810473 \\
-\hline
-castle 16-9-1 & 22005 & 0.101019 & 4382 & 2.64418 \\
-\hline
-\end{tabular}
+\begin{table}
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+    \multicolumn{1}{|c|}{} & \multicolumn{2}{c|}{Number of Expansions} & \multicolumn{2}{c|}{Time (s)}\\
+    \cline{2-5}
+    \multicolumn{1}{|c|}{Instance} & Blind Search & Relaxed Task Graph & Blind Search & Relaxed Task Graph \\
+    \hline
+    castle 2-2-8 & 8 & 8 & 0.0014622 & 0.0013283 \\
+    \hline
+    castle 3-3-8 & 84 & 84 & 0.0022348 & 0.0029757 \\
+    \hline
+    castle 4-3-5 & 263 & 263 & 0.0034227 & 0.0071273 \\
+    \hline
+    castle 5-4-7 & 12 & 6 & 0.003974 & 0.0049379 \\
+    \hline
+    castle 5-4-9 & 7350 & 7350 & 0.02681 & 0.241813 \\
+    \hline
+    castle 5-4-10 & 0 & 0 & 0.0009523 & 0.0009358 \\
+    \hline
+    castle 6-4-7 & 24146 & 24022 & 0.070907 & 1.06481 \\
+    \hline
+    castle 7-5-4 & 3680953 & — & 12.537 & — \\
+    \hline
+    castle 8-5-9 & 4839625 & — & 16.9822 & — \\
+    \hline
+    castle 9-6-5 & 661 & 206 & 0.0117677 & 0.0594118 \\
+    \hline
+    castle 10-6-7 & — & — & — & — \\
+    \hline
+    castle 12-7-3 & 4585 & 2520 & 0.0296206 & 0.810473 \\
+    \hline
+    castle 16-9-1 & 22005 & 4382 & 0.101019 & 2.64418 \\
+    \hline
+    \end{tabular}
+    \caption{Comparison of blind search and $A^*$ search on the relaxed task graph.}
+    \label{tab:rtg-blind}
+\end{table}
+
+As expected, the number of expansions of blind search is an upper bound on the number of expansions for the relaxed heuristic, as can be seen on~\fref{tab:rtg-blind}.
+However, computing the graph for the relaxed heuristic is generally costlier than blind search,
+which is reflected on the run times.
+This becomes more evident on harder instances such as \texttt{castle 7-5-4} and \texttt{castle 8-5-9},
+where the computation blew past the time limit of 60 seconds when using the relaxed heuristic.
+These heuristics lack informedness, so neither are able to provide a full plan within the time limit
+for the \texttt{castle 10-6-7} instance. \par
+
+Next, we implement the $h^{add}$ heuristic, and use it to compare its initial heuristic values
+against the cost of an optimal relaxed plan, the actual discovered plan, and an optimal plan.
+
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|l|l|l|l}
+        Instance & Initial h value ($h^{add}$) & $h^+$  & $\lvert \pi^{hadd} \rvert$ & $h^*$ \\
+        \hline
+        castle 2-2-8 & 6 & 4 & 4 & 4 \\
+        castle 3-3-8 & 53 & 9  & 9 & 9 \\
+        castle 4-3-5 & 161 & 14 & 14 & 15 \\
+        castle 5-4-7 & 182 & $18^*$ & $\infty$ & $\infty$ \\
+        castle 5-4-9 & 232 & 19 & 21 & 19 \\
+        castle 5-4-10 & $\infty$ & $\infty$ & $\infty$ & $\infty$ \\
+        castle 6-4-7 & 555 & $23^*$ & 26 & 26 \\
+        castle 7-5-4 & 595 & $26^*$ & 40 & 35 \\
+        castle 8-5-9 & 1704 & $28^*$ & 46 & 39 \\
+        castle 9-6-5 & 2001 & $34^*$ & $\infty$ & $\infty$ \\
+        castle 10-6-7 & 2257 & $36^*$ & 82 & $36^*$ \\
+        castle 12-7-3 & 3348 & $42^*$ & $\infty$ & $\infty$ \\
+        castle 16-9-1 & 10258 & $60^*$ & $\infty$ & $\infty$ \\
+    \end{tabular}
+    \caption{Comparison of plan lengths. \textit{*Actual value could not be computed, so we instead
+    report the value of the last reached f-layer}.
+    }
+    \label{tab:plan-length}
+\end{table}
+
+The comparison results can be seen on~\fref{tab:plan-length}. It can be seen that the $h^{add}$
+heuristic severely overestimates many true costs of the relaxed tasks, from which it can be said
+that it is not an admissible heuristic. We also know that an optimal relaxed plan is never more 
+expensive than an optimal plan for an original task, which is reflected on the comparison of the
+$h^+$ and $h^*$ columns.
+
+The next experiment targets the $h^{ff}$ heuristic. We implement it by computing a best achiever
+graph, and run the same experiment we did for $h^{add}$. The results can be seen
+on~\fref{tab:experiment-ff}.
+
+\begin{table}
+    \centering
+    \begin{tabular}{l|l|l|l|l}
+        Instance & Initial h value ($h^{ff}$) & $h^+$  & $\lvert \pi^{hff} \rvert$ & $h^*$ \\
+        \hline
+        castle 2-2-8 & 4 & 4 & 4 & 4 \\
+        castle 3-3-8 & 9 & 9  & 9 & 9 \\
+        castle 4-3-5 & 18 & 14 & 15 & 15 \\
+        castle 5-4-7 & 25 & $18^*$ & $\infty$ & $\infty$ \\
+        castle 5-4-9 & 25 & 19 & 19 & 19 \\
+        castle 5-4-10 & $\infty$ & $\infty$ & $\infty$ & $\infty$ \\
+        castle 6-4-7 & 34 & $23^*$ & 30 & 26 \\
+        castle 7-5-4 & 41 & $26^*$ & 38 & 35 \\
+        castle 8-5-9 & 47 & $28^*$ & 41 & 39 \\
+        castle 9-6-5 & 56 & $34^*$ & $\infty$ & $\infty$ \\
+        castle 10-6-7 & 61 & $36^*$ & 71 & $36^*$ \\
+        castle 12-7-3 & 78 & $42^*$ & $\infty$ & $\infty$ \\
+        castle 16-9-1 & 109 & $60^*$ & $\infty$ & $\infty$ \\
+    \end{tabular}
+    \caption{Comparison of plan lengths and performance of $h^{ff}$.}
+    \label{tab:experiment-ff}
+\end{table}
+
+The initial state heuristic values for $h^{ff}$ are all lower (often by a very large margin) than
+those for $h^{add}$, which happens because $h^{ff}$ will not count multiple paths for the same
+operator as $h^{add}$ does. Sometimes, such as for instance \textit{castle 4-3-5}, $h^{ff}$ will not
+find an optimal solution, but $h^{add}$ will. This is likely due to the non-deterministic nature
+of $h^{ff}$. On most situations, however, $h^{ff}$ finds better plans than $h^{add}$.
+
+\end{titlepage}
 
 \end{document}
